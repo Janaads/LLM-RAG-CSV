@@ -16,7 +16,7 @@ def load_csv(file):
 
 def get_response(user_query, chat_history, document_text):
     """Generates a response based on user query, chat history, and CSV content."""
-    llm = ChatOllama(model='dolphin-mistral:latest', host='llm-rag-csv.onrender.com', port=11434)
+    llm = ChatOllama(model='dolphin-mistral:latest', base_url="https://localhost:11434/")
 
     template = '''
         Welcome to the ChatBot powered by Ollama Mistral.
@@ -39,16 +39,14 @@ def get_response(user_query, chat_history, document_text):
 st.set_page_config(page_title="LLM RAG CHATBOT")
 st.title('Distributed UI CORE Exploitation Pattern Platform using cloud')
 
-# Initialize chat history and document text
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = [AIMessage(content="How can I help you?")]
 if "document_text" not in st.session_state:
     st.session_state.document_text = ""
 
-# File upload handling
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
 if uploaded_file:
-    # Load CSV content into session state
+    # Load CSV content
     st.session_state.document_text = load_csv(uploaded_file)
 
 if st.session_state.document_text:
@@ -74,9 +72,5 @@ if user_query is not None and user_query.strip() != "":
     # Generate and display response
     document_text = st.session_state.document_text if st.session_state.document_text else "No CSV file uploaded."
     with st.chat_message("AI"):
-        try:
-            response = st.write_stream(get_response(user_query, st.session_state.chat_history, document_text))
-            st.session_state.chat_history.append(AIMessage(content=response))
-        except Exception as e:
-            st.error(f"Error generating response: {e}")
-            st.session_state.chat_history.append(AIMessage(content="Sorry, I couldn't generate a response."))
+        response = st.write_stream(get_response(user_query, st.session_state.chat_history, document_text))
+    st.session_state.chat_history.append(AIMessage(content=response))
