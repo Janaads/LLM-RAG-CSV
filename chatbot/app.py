@@ -16,8 +16,7 @@ def load_csv(file):
 
 def get_response(user_query, chat_history, document_text):
     """Generates a response based on user query, chat history, and CSV content."""
-    # Ensure you provide the correct host and port for the Ollama server
-    llm = ChatOllama(model='dolphin-mistral:latest', host='ollama-service.render.com', port=11434)  # Use the public IP or domain for your server
+    llm = ChatOllama(model='dolphin-mistral:latest', host='LLM-RAG-CSV.onrender.com', port=11434)
 
     template = '''
         Welcome to the ChatBot powered by Ollama Mistral.
