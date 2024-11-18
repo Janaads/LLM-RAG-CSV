@@ -16,7 +16,7 @@ def load_csv(file):
 
 def get_response(user_query, chat_history, document_text):
     """Generates a response based on user query, chat history, and CSV content."""
-    llm = ChatOllama(model='dolphin-mistral:latest', host='LLM-RAG-CSV.onrender.com', port=11434)
+    llm = ChatOllama(model='dolphin-mistral:latest', host='llm-rag-csv.onrender.com', port=11434)
 
     template = '''
         Welcome to the ChatBot powered by Ollama Mistral.
